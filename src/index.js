@@ -1,13 +1,21 @@
-const express = require('express');
+const express = require("express");
+const {v4: uuid } = require("uuid");
 
 const app = express();
+app.use(express.json());
 
+const customers = [];
+app.post("/account", ( request, response )=>{
+   const { cpf, name } = request.body;
+   const id = uuid();
+   customers.push({
+     cpf,
+     name,
+     id,
+     statement: [],
+   });
+   
+   return response.status(201).send();
+})
 app.listen(8080);
 
-app.get("/courses", (request, response) =>{
-   return response.json([
-     "Curso 1",
-     "Curso 2",
-     "Curso 3"
-   ]);
-})
