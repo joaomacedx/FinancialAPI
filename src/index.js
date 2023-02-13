@@ -5,10 +5,11 @@ const app = express();
 app.use(express.json());
 
 const customers = [];
-app.post("/account", ( request, response )=>{
+app.post("/account", (request, response)=>{
    const { cpf, name } = request.body;
    const customerAlreadyExists = customers.some(
-     (customer) => customer.cpf === cpf
+     (customer) => 
+       customer.cpf === cpf
    );
    if(customerAlreadyExists){
      return response.status(400).json({
@@ -23,6 +24,14 @@ app.post("/account", ( request, response )=>{
    });
    
    return response.status(201).send();
+})
+app.get("/statement/:cpf", (request, response)=>{
+   const { cpf } = reques.params;
+   
+   const customer = customers.find(
+     (customer) => customer.cpf === cpf
+     );
+   return response.json(customer.statement);
 })
 app.listen(8080);
 
